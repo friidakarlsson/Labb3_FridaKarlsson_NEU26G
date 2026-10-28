@@ -30,7 +30,7 @@
             <Button 
                 DockPanel.Dock="Right" 
                 HorizontalAlignment="Right" 
-                Content="Add" Margin="2 4 5 4"
+                Content="add" Margin="2 4 5 4"
             />
             
             <Button DockPanel.Dock="Right" 
@@ -49,28 +49,86 @@
         <ListBox
             Grid.Row="1"
             Margin="5"
-            ItemsSource="{Binding ActivePack}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ItemsSource="{Binding ActivePack.Questions}"
         >
-            <!--<ListBoxItem />
-            <ListBoxItem Content="test"/>
-            <ListBoxItem Content="test"/>
-            <ListBoxItem Content="test"/>
-            <ListBoxItem Content="test"/>-->
+
         </ListBox>
 
-        <DockPanel
+        <Grid
             Grid.Column="1"
             Grid.Row="1"
         >
-            <StackPanel
-                DockPanel.Dock="Top"
-            >
-                <Label Content="Question:"/>
-                <TextBox Text="New Question"/>
-
-            </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
             
-        </DockPanel>
+            <DockPanel>
+                <Label 
+                    DockPanel.Dock="Top"
+                    Content="Question:"
+                    FontWeight="Bold"
+                    Margin="15 0 20 0"
+                />
+                
+                <TextBox 
+                    Text="New Question"
+                    Margin="15 0 20 20"                    
+                />
+            </DockPanel>
+
+            <StackPanel
+                Grid.Column="1"
+                Grid.Row="1"
+            >
+
+                <Label 
+                    Content="Correct answer:"
+                    FontWeight="Bold"
+                    Margin="15 15 20 0"
+                />
+                <TextBox 
+                    Text="Correct answer"
+                    Margin="15 0 20 0"                    
+                />
+
+                
+                <Label 
+                    Content="First Incorrect answer:"
+                    FontWeight="Bold"
+                    Margin="15 0 20 0"
+                />
+                <TextBox 
+                    Text="First Incorrect answer"
+                    Margin="15 0 20 0"                    
+                />
+
+                
+                <Label 
+                    Content="Second Incorrect answer:"
+                    FontWeight="Bold"
+                    Margin="15 0 20 0"
+                />
+                <TextBox 
+                    Text="Second Incorrect answer"
+                    Margin="15 0 20 0"                    
+                />
+                
+
+                <Label 
+                    Content="Third Incorrect answer:"
+                    FontWeight="Bold"
+                    Margin="15 0 20 0"
+                />
+                <TextBox 
+                    Text="Third Incorrect answer"
+                    Margin="15 0 20 0"                    
+                />
+            </StackPanel>    
+            
+        </Grid>
         
     </Grid>
 </UserControl>
