@@ -19,22 +19,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel>
-            <Label 
-                DockPanel.Dock="Left" 
-                VerticalAlignment="Center" 
-                Content="Selected Question Pack"
-                Margin="5 4 5 4"
-                FontWeight="Bold"
-            />
+        <DockPanel
+            Grid.Column="0"
+            Grid.Row="0"
+        >            
 
             <Button 
                 DockPanel.Dock="Right" 
                 HorizontalAlignment="Right" 
-                Margin="2 4 5 4"
-                Padding="2"
                 Height="20"
                 Width="20"
+                Margin="2 4 5 4"
+                Padding="2"
             >
                 <fa6:SvgAwesome Icon="Solid_Minus"/>
             </Button>
@@ -42,10 +38,10 @@
             <Button 
                 DockPanel.Dock="Right" 
                 HorizontalAlignment="Right" 
-                Margin="2 4 2 4"
-                Padding="2"
                 Height="20"
                 Width="20"
+                Margin="2 4 2 4"
+                Padding="2"
             >
                 <fa6:SvgAwesome Icon="Solid_Plus"/>
             </Button>
@@ -53,22 +49,31 @@
             <Button 
                 DockPanel.Dock="Right" 
                 HorizontalAlignment="Right" 
-                Margin="2 4 2 4"
-                Padding="2"
                 Height="20"
                 Width="20"
+                Margin="2 4 2 4"
+                Padding="2"
             >
                 <fa6:SvgAwesome Icon="Solid_Sliders"/>
             </Button>
-            
+
+            <Label  
+                VerticalAlignment="Center" 
+                Margin="5 4 5 4"
+                FontWeight="Bold"
+                Content="Selected Question Pack"
+            />
+
         </DockPanel>
 
         <ListBox
+            Grid.Column="0"
             Grid.Row="1"
             Margin="5"
             ScrollViewer.HorizontalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ItemsSource="{Binding ActivePack.Questions}"
+            DisplayMemberPath="Question.Text"
         >
 
         </ListBox>
@@ -78,70 +83,70 @@
             Grid.Row="1"
         >
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
-            
-            <DockPanel>
-                <Label 
-                    DockPanel.Dock="Top"
-                    Content="Question:"
-                    FontWeight="Bold"
-                    Margin="15 0 20 0"
-                />
+            </Grid.RowDefinitions>            
+        
+            <Label 
+                Grid.Row="0"
+                Margin="15 0 20 0"
+                FontWeight="Bold"
+                Content="Question:"
+            />
                 
-                <TextBox 
-                    Text="New Question"
-                    Margin="15 0 20 20"                    
-                />
-            </DockPanel>
+            <TextBox 
+                Grid.Row="1"
+                Margin="15 0 20 20"                    
+                Text="New Question"
+            />
+        
 
             <StackPanel
-                Grid.Column="1"
-                Grid.Row="1"
+                Grid.Row="2"
             >
 
                 <Label 
-                    Content="Correct answer:"
-                    FontWeight="Bold"
                     Margin="15 15 20 0"
+                    FontWeight="Bold"
+                    Content="Correct answer:"
                 />
                 <TextBox 
+                    Margin="15 0 20 0"                    
                     Text="Correct answer"
-                    Margin="15 0 20 0"                    
                 />
 
                 
                 <Label 
+                    Margin="15 0 20 0"
+                    FontWeight="Bold"
                     Content="First Incorrect answer:"
-                    FontWeight="Bold"
-                    Margin="15 0 20 0"
                 />
                 <TextBox 
+                    Margin="15 0 20 0"                    
                     Text="First Incorrect answer"
-                    Margin="15 0 20 0"                    
                 />
 
                 
                 <Label 
+                    Margin="15 0 20 0"
+                    FontWeight="Bold"
                     Content="Second Incorrect answer:"
-                    FontWeight="Bold"
-                    Margin="15 0 20 0"
                 />
                 <TextBox 
-                    Text="Second Incorrect answer"
                     Margin="15 0 20 0"                    
+                    Text="Second Incorrect answer"
                 />
                 
 
                 <Label 
-                    Content="Third Incorrect answer:"
-                    FontWeight="Bold"
                     Margin="15 0 20 0"
+                    FontWeight="Bold"
+                    Content="Third Incorrect answer:"
                 />
                 <TextBox 
-                    Text="Third Incorrect answer"
                     Margin="15 0 20 0"                    
+                    Text="Third Incorrect answer"
                 />
             </StackPanel>    
             
