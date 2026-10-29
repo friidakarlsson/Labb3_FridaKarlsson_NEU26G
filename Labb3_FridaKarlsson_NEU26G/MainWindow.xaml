@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G"
         xmlns:views="clr-namespace:Labb3_FridaKarlsson_NEU26G.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800"
-        MinHeight="450" MinWidth="700">
-    
+        Title="Quiz Configurator" Height="500" Width="800"
+        Icon="/Assets/letter-q.ico"
+        MinHeight="450" MinWidth="700"
+        xmlns:fa6="http://schemas.fontawesome.com/icons/svg">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

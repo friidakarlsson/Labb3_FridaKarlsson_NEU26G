@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G.Views"
+             xmlns:fa6="http://schemas.fontawesome.com/icons/svg"
              mc:Ignorable="d" 
              DataContext="{Binding ConfigurationViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -30,20 +31,36 @@
             <Button 
                 DockPanel.Dock="Right" 
                 HorizontalAlignment="Right" 
-                Content="add" Margin="2 4 5 4"
-            />
-            
-            <Button DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right" 
-                    Content="Add" Margin="2 4 2 4"
-            />
+                Margin="2 4 5 4"
+                Padding="2"
+                Height="20"
+                Width="20"
+            >
+                <fa6:SvgAwesome Icon="Solid_Minus"/>
+            </Button>
             
             <Button 
                 DockPanel.Dock="Right" 
                 HorizontalAlignment="Right" 
-                Content="Add" 
                 Margin="2 4 2 4"
-            />
+                Padding="2"
+                Height="20"
+                Width="20"
+            >
+                <fa6:SvgAwesome Icon="Solid_Plus"/>
+            </Button>
+
+            <Button 
+                DockPanel.Dock="Right" 
+                HorizontalAlignment="Right" 
+                Margin="2 4 2 4"
+                Padding="2"
+                Height="20"
+                Width="20"
+            >
+                <fa6:SvgAwesome Icon="Solid_Sliders"/>
+            </Button>
+            
         </DockPanel>
 
         <ListBox

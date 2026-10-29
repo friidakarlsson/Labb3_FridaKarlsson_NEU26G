@@ -8,4 +8,20 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\correct.png" />
+    <None Remove="Assets\incorrect.png" />
+    <None Remove="Assets\letter-q.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome6.Svg" Version="2.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\correct.png" />
+    <Resource Include="Assets\incorrect.png" />
+    <Resource Include="Assets\letter-q.ico" />
+  </ItemGroup>
+
 </Project>
