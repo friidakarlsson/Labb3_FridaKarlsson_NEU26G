@@ -1,7 +1,7 @@
 ﻿
 namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 
-internal class PlayerViewModel
+internal class PlayerViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
 

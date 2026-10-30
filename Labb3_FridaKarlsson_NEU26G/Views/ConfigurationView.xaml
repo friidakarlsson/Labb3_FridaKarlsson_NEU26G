@@ -58,10 +58,9 @@
             </Button>
 
             <Label  
-                VerticalAlignment="Center" 
-                Margin="5 4 5 4"
+                Margin="5 4 5 0"
                 FontWeight="Bold"
-                Content="Selected Question Pack"
+                Content="Question Pack"
             />
 
         </DockPanel>
@@ -73,6 +72,7 @@
             ScrollViewer.HorizontalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ItemsSource="{Binding ActivePack.Questions}"
+            
         >
             <ListBox.ItemTemplate>
                 <DataTemplate>
