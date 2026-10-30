@@ -22,10 +22,10 @@
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Width="480"
         >
         
-            <TextBox                
-                Width="480"
+            <TextBox                  
                 Margin="0 0 0 10"
                 BorderThickness="0"
                 FontSize="30"
@@ -34,17 +34,17 @@
                 Text="Här ställs frågan och det är mycket text ibland om det är en lång "
             />
 
-            <TextBox 
-                Width="480"
+            <TextBox               
                 BorderThickness="0"
                 FontSize="14"
                 TextAlignment="Center"
                 Text="Question no. out of no."
             />
 
-            <Grid Width="480"
-                  Height="180"
-                  Margin="0 20 0 30">
+            <Grid 
+                Height="180"
+                Margin="0 20 0 30"
+            >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

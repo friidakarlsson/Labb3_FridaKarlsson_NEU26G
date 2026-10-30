@@ -73,8 +73,15 @@
             ScrollViewer.HorizontalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ItemsSource="{Binding ActivePack.Questions}"
-            DisplayMemberPath="Question.Text"
         >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="Question" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Query}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
 
         </ListBox>
 
@@ -98,13 +105,11 @@
             <TextBox 
                 Grid.Row="1"
                 Margin="15 0 20 20"                    
-                Text="New Question"
+                Text="{}"
             />
         
 
-            <StackPanel
-                Grid.Row="2"
-            >
+            <StackPanel Grid.Row="2">
 
                 <Label 
                     Margin="15 15 20 0"
