@@ -1,4 +1,7 @@
 ﻿
+using Labb3_FridaKarlsson_NEU26G.Command;
+using Labb3_FridaKarlsson_NEU26G.Models;
+
 namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 
 internal class ConfigurationViewModel : ViewModelBase
@@ -9,10 +12,19 @@ internal class ConfigurationViewModel : ViewModelBase
 
     public void RaiseActivePackChanged() => RaisePropertyChanged(nameof(ActivePack));
 
+
+    public ConfigurationViewModel()
+    {
+        
+    }
     public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
     {
         _mainWindowViewModel = mainWindowViewModel;
 
 
+
     }
+
+
+
 }

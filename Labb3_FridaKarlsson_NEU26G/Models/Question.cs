@@ -7,7 +7,7 @@ internal class Question
     {
         Query = query;
         CorrectAnswer = correctAnswer;
-        IncorrectAnswers = new string[] { incorrectAnswer1, incorrectAnswer2, incorrectAnswer3 }; 
+        IncorrectAnswers = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3]; 
     }
 
     public string Query { get; set; }

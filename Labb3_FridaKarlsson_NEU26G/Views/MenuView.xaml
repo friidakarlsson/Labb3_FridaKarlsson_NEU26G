@@ -4,15 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G.Views"
+             xmlns:viewmodels="clr-namespace:Labb3_FridaKarlsson_NEU26G.ViewModels"
              xmlns:fa6="http://schemas.fontawesome.com/icons/svg"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel, IsDesignTimeCreatable=True}">
     <Grid>
         
         <Menu>
             
             <MenuItem Header="_File">
-                <MenuItem Header="_New Question pack">
+                <MenuItem Header="_New Question pack" Command="">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Solid_FolderPlus" Width="12" Height="12"/>
                     </MenuItem.Icon>
@@ -43,12 +45,14 @@
             
             
             <MenuItem Header="_Edit">
-                <MenuItem Header="_Add Question" InputGestureText="Insert">
+                <MenuItem Header="_Add Question" InputGestureText="Insert"
+                          Command="{Binding ActivePack.AddNewQuestionCommand}">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Solid_Plus" Width="12" Height="12"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Remove Question" InputGestureText="Delete">
+                <MenuItem Header="_Remove Question" InputGestureText="Delete"
+                          Command="{Binding ActivePack.DeleteQuestionCommand}">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Solid_Minus" Width="12" Height="12"/>
                     </MenuItem.Icon>

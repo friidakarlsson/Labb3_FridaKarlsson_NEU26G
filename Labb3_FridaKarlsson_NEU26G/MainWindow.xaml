@@ -5,11 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G"
         xmlns:views="clr-namespace:Labb3_FridaKarlsson_NEU26G.Views"
+        xmlns:viewmodels="clr-namespace:Labb3_FridaKarlsson_NEU26G.ViewModels"
         mc:Ignorable="d"
         Title="Quiz Configurator" Height="500" Width="800"
         Icon="/Assets/letter-q.ico"
         MinHeight="450" MinWidth="700"
-        xmlns:fa6="http://schemas.fontawesome.com/icons/svg">
+        xmlns:fa6="http://schemas.fontawesome.com/icons/svg"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel, IsDesignTimeCreatable=True}">
+    
+    <Window.InputBindings>
+        <KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding}"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding}"/>
+
+        <KeyBinding Key="Insert" Command="{Binding ActivePack.AddNewQuestionCommand}"/>
+        <KeyBinding Key="Delete" Command="{Binding ActivePack.DeleteQuestionCommand}"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding}"/>
+
+        <KeyBinding Key="P" Modifiers="Ctrl" Command="{Binding}"/>
+        <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding}"/>
+        <KeyBinding Key="Return" Modifiers="Alt" Command="{Binding}"/>
+            
+
+    </Window.InputBindings>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

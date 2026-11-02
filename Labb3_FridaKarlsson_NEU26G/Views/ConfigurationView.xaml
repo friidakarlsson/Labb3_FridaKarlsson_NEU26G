@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G.Views"
+             xmlns:viewmodels="clr-namespace:Labb3_FridaKarlsson_NEU26G.ViewModels"
              xmlns:fa6="http://schemas.fontawesome.com/icons/svg"
              mc:Ignorable="d" 
-             DataContext="{Binding ConfigurationViewModel}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             DataContext="{Binding ConfigurationViewModel}"             
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewmodels:ConfigurationViewModel, IsDesignTimeCreatable=True}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -31,6 +33,7 @@
                 Width="20"
                 Margin="2 4 5 4"
                 Padding="2"
+                Command="{Binding ActivePack.DeleteQuestionCommand}"
             >
                 <fa6:SvgAwesome Icon="Solid_Minus"/>
             </Button>
@@ -42,6 +45,7 @@
                 Width="20"
                 Margin="2 4 2 4"
                 Padding="2"
+                Command="{Binding ActivePack.AddNewQuestionCommand}"
             >
                 <fa6:SvgAwesome Icon="Solid_Plus"/>
             </Button>
@@ -60,18 +64,22 @@
             <Label  
                 Margin="5 4 5 0"
                 FontWeight="Bold"
-                Content="Question Pack"
+                Content="{Binding ActivePack.Name}"
             />
 
         </DockPanel>
 
         <ListBox
+            x:Name="listboxQuestionPacks"
             Grid.Column="0"
             Grid.Row="1"
             Margin="5"
             ScrollViewer.HorizontalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ItemsSource="{Binding ActivePack.Questions}"
+            SelectionMode="Single"
+            SelectedItem="{Binding ActivePack.ActiveQuestion}"
+            
             
         >
             <ListBox.ItemTemplate>
@@ -105,7 +113,7 @@
             <TextBox 
                 Grid.Row="1"
                 Margin="15 0 20 20"                    
-                Text="{}"
+                Text="{Binding ActivePack.ActiveQuestion.Query}"
             />
         
 
@@ -118,7 +126,7 @@
                 />
                 <TextBox 
                     Margin="15 0 20 0"                    
-                    Text="Correct answer"
+                    Text="{Binding ActivePack.ActiveQuestion.CorrectAnswer}"
                 />
 
                 
@@ -129,7 +137,7 @@
                 />
                 <TextBox 
                     Margin="15 0 20 0"                    
-                    Text="First Incorrect answer"
+                    Text="{Binding ActivePack.ActiveQuestion.IncorrectAnswers[0]}"
                 />
 
                 
@@ -140,7 +148,7 @@
                 />
                 <TextBox 
                     Margin="15 0 20 0"                    
-                    Text="Second Incorrect answer"
+                    Text="{Binding ActivePack.ActiveQuestion.IncorrectAnswers[1]}"
                 />
                 
 
@@ -151,7 +159,7 @@
                 />
                 <TextBox 
                     Margin="15 0 20 0"                    
-                    Text="Third Incorrect answer"
+                    Text="{Binding ActivePack.ActiveQuestion.IncorrectAnswers[2]}"
                 />
             </StackPanel>    
             

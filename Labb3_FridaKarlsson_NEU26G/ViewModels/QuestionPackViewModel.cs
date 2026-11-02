@@ -1,6 +1,8 @@
 ﻿
+using Labb3_FridaKarlsson_NEU26G.Command;
 using Labb3_FridaKarlsson_NEU26G.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 
@@ -8,11 +10,18 @@ internal class QuestionPackViewModel : ViewModelBase
 {
     private readonly QuestionPack _model;
 
+    private Question? _activeQuestion;
+
+
     public QuestionPackViewModel(QuestionPack model)
     {
         _model = model;
         Questions = new ObservableCollection<Question>(_model.Questions);
+
+        AddNewQuestionCommand = new RelayCommand(_ => AddNewQuestion());
+        DeleteQuestionCommand = new RelayCommand(DeleteQuestion, CanDeleteQuestion);
     }
+
 
 
     public string Name
@@ -55,4 +64,40 @@ internal class QuestionPackViewModel : ViewModelBase
     }
 
     public ObservableCollection<Question> Questions { get; }
+
+    public Question? ActiveQuestion
+    {
+        get => _activeQuestion;
+        set
+        {
+            if (SetProperty(ref _activeQuestion, value))
+            {
+                DeleteQuestionCommand.RaiseCanExecuteChanged();
+            }
+        }
+    }
+
+
+    public RelayCommand AddNewQuestionCommand { get; }
+    public RelayCommand DeleteQuestionCommand { get; }
+
+
+    public void AddNewQuestion()
+    {
+        Questions.Add(new Question("New question", "Correct answer", "First incorrect answer", "Second incorrect answer", "Third incorrect answer"));
+    }
+
+    public void DeleteQuestion(object? obj)
+    {
+        if (ActiveQuestion != null)
+        {
+
+            Questions.Remove(ActiveQuestion);
+        }
+    }
+    private bool CanDeleteQuestion(object? arg)
+    {
+        return ActiveQuestion != null;
+
+    }
 }

@@ -9,6 +9,7 @@ namespace Labb3_FridaKarlsson_NEU26G
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();

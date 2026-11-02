@@ -7,10 +7,9 @@ namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 internal class MainWindowViewModel :ViewModelBase
 {
     public ObservableCollection<QuestionPackViewModel> Packs { get; }
-
-	private QuestionPackViewModel _activePack;
-
-    public QuestionPackViewModel ActivePack
+    
+	private QuestionPackViewModel? _activePack;
+    public QuestionPackViewModel? ActivePack
 	{
 		get => _activePack;
         set
@@ -27,6 +26,7 @@ internal class MainWindowViewModel :ViewModelBase
 
     public MainWindowViewModel()
     {
+        Packs = new ObservableCollection<QuestionPackViewModel>();
 		PlayerViewModel = new PlayerViewModel(this);
         ConfigurationViewModel = new ConfigurationViewModel(this);
 
@@ -36,4 +36,5 @@ internal class MainWindowViewModel :ViewModelBase
 
         ActivePack = new QuestionPackViewModel(questionPack);
     }
+
 }
