@@ -4,9 +4,85 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G.Dialogs"
+        xmlns:viewmodels="clr-namespace:Labb3_FridaKarlsson_NEU26G.ViewModels"
         mc:Ignorable="d"
-        Title="PackOptionsDialog" Height="450" Width="800">
-    <Grid>
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        Title="Pack Options" Height="240" Width="200"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel, IsDesignTimeCreatable=True}">
+
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Width="170"
+        Margin="10">
+
+
+        <Label Content="Pack Name:"
+               FontWeight="Bold"
+               Padding="4 5 4 2"/>
+
+        <TextBox Text="{Binding ActivePack.Name}"
+                 Margin="3 2 3 2"/>
+
+        <Label Content="Difficulty"
+               FontWeight="Bold"
+               Padding="4 5 4 2"/>
+
+        <ComboBox 
+            ItemsSource="{Binding ActivePack.Difficulty}"
+            DisplayMemberPath="Difficulty"
+            SelectedValue="{Binding ActivePack.Difficulty}"
+            Margin="3 2 3 2"
+        >
+
+        </ComboBox>
+
+
+        <DockPanel>
+        <Label 
+               DockPanel.Dock="Left"
+               FontWeight="Bold"
+               Padding="4 5 4 2">
+            <TextBlock>
+          
+                    <Run Text="Time Limit:"/>
+ 
+               
+            </TextBlock>
+
+              
+            </Label>
+
+            <Label DockPanel.Dock="Right"
+                   HorizontalAlignment="Right"
+                   Padding="4 5 4 2"
+                   >
+                <TextBlock>                   
+                    <Run Text="{Binding ElementName=TimeLimitSlider, Path=Value, StringFormat={}{0} seconds}"/>
+                </TextBlock>
+            </Label>
+
+        </DockPanel>
+
+
         
-    </Grid>
+
+        <Slider 
+            x:Name="TimeLimitSlider"
+            Minimum="5"
+            Maximum="120"
+            Value="60"
+            TickPlacement="BottomRight"
+            TickFrequency="5"
+            IsSnapToTickEnabled="True"
+            IsMoveToPointEnabled="True"
+            Margin="3 2 3 2">
+
+        </Slider>
+
+    </StackPanel>
+
+
 </Window>

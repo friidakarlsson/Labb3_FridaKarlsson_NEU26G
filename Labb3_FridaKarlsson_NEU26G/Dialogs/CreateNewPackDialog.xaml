@@ -4,9 +4,127 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G.Dialogs"
+        xmlns:viewmodels="clr-namespace:Labb3_FridaKarlsson_NEU26G.ViewModels"
         mc:Ignorable="d"
-        Title="CreateNewPackDialog" Height="450" Width="800">
+        Title="Create New Pack" Height="250" Width="200"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel, IsDesignTimeCreatable=True}">
+
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Width="170"
+            Margin="10"
+        >
+
+            <Label 
+                Content="Pack Name:"
+                FontWeight="Bold"
+                Padding="4 5 4 2"
+            />
+
+            <TextBox 
+                Text="&lt;PackName&gt;"
+                Margin="3 2 3 2"
+            />
+
+            <Label 
+                Content="Difficulty"
+                FontWeight="Bold"
+                Padding="4 5 4 2"
+            />
+
+            <ComboBox 
+                SelectedItem=""
+                Margin="3 2 3 2"
+            >
+                <ComboBoxItem Content="Easy"/>
+                <ComboBoxItem Content="Medium"/>
+                <ComboBoxItem Content="Hard"/>
+            </ComboBox>
+
+
+            <DockPanel>
+                <Label 
+                   DockPanel.Dock="Left"
+                   FontWeight="Bold"
+                   Padding="4 5 4 2"
+                >                    
+                    <TextBlock>          
+                        <Run Text="Time Limit:"/>
+                    </TextBlock>                    
+                </Label>
+
+                <Label 
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Padding="4 5 4 2"
+                >
+                    <TextBlock>                    
+                    <Run Text="{Binding ElementName=TimeLimitSlider, Path=Value, StringFormat={}{0} seconds}"/>
+
+                    </TextBlock>
+                </Label>
+            </DockPanel>
+
+            <Slider 
+                x:Name="TimeLimitSlider"
+                Minimum="5"
+                Maximum="120"
+                Value="60"
+                TickPlacement="BottomRight"
+                TickFrequency="5"
+                IsSnapToTickEnabled="True"
+                IsMoveToPointEnabled="True"
+                Margin="3 2 3 2"
+            />
+
+        </StackPanel>
+
+        <Button
+                Grid.Column="0"
+                Grid.Row="3"
+                Content="Cancel"
+                Width="50"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="10 10 10 15"
+                Padding="2"
+            />
+
+        <Button
+                Grid.Column="1"
+                Grid.Row="3"
+                Content="Create"
+                Width="50"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="10 10 10 15"
+                Padding="2"
+            />
+
+
+
     </Grid>
+
+
+
 </Window>

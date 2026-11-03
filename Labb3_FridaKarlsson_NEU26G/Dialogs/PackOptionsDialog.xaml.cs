@@ -20,6 +20,8 @@ namespace Labb3_FridaKarlsson_NEU26G.Dialogs
         public PackOptionsDialog()
         {
             InitializeComponent();
+
         }
+
     }
 }
