@@ -1,4 +1,5 @@
 ﻿
+using Labb3_FridaKarlsson_NEU26G.Command;
 using Labb3_FridaKarlsson_NEU26G.Models;
 using System.Collections.ObjectModel;
 
@@ -24,6 +25,7 @@ internal class MainWindowViewModel :ViewModelBase
     public PlayerViewModel? PlayerViewModel { get;}
     public ConfigurationViewModel? ConfigurationViewModel { get; }
 
+
     public MainWindowViewModel()
     {
         Packs = new ObservableCollection<QuestionPackViewModel>();
@@ -36,5 +38,7 @@ internal class MainWindowViewModel :ViewModelBase
 
         ActivePack = new QuestionPackViewModel(questionPack);
     }
+
+
 
 }

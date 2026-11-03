@@ -5,11 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G.Dialogs"
         xmlns:viewmodels="clr-namespace:Labb3_FridaKarlsson_NEU26G.ViewModels"
-        mc:Ignorable="d"
-        ResizeMode="NoResize"
-        SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner"
-        Title="Pack Options" Height="240" Width="200"
+        mc:Ignorable="d"        
+        Title="Pack Options" Height="240" Width="200" ResizeMode="NoResize" WindowStyle="ToolWindow"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel, IsDesignTimeCreatable=True}">
 
     <StackPanel
@@ -73,7 +70,7 @@
             x:Name="TimeLimitSlider"
             Minimum="5"
             Maximum="120"
-            Value="60"
+            Value="{Binding ActivePack.TimeLimitInSeconds}"
             TickPlacement="BottomRight"
             TickFrequency="5"
             IsSnapToTickEnabled="True"

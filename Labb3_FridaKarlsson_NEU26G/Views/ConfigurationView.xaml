@@ -57,6 +57,7 @@
                 Width="20"
                 Margin="2 4 2 4"
                 Padding="2"
+                Command="{Binding OpenPackOptionsDialogCommand}"
             >
                 <fa6:SvgAwesome Icon="Solid_Sliders"/>
             </Button>

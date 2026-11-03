@@ -6,10 +6,7 @@
         xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G.Dialogs"
         xmlns:viewmodels="clr-namespace:Labb3_FridaKarlsson_NEU26G.ViewModels"
         mc:Ignorable="d"
-        Title="Create New Pack" Height="250" Width="200"
-        ResizeMode="NoResize"
-        SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner"
+        Title="Create New Pack" Height="250" Width="200" ResizeMode="NoResize" WindowStyle="ToolWindow"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel, IsDesignTimeCreatable=True}">
 
     <Grid>
@@ -89,7 +86,7 @@
                 x:Name="TimeLimitSlider"
                 Minimum="5"
                 Maximum="120"
-                Value="60"
+                Value="{Binding ActivePack.TimeLimitInSeconds}"
                 TickPlacement="BottomRight"
                 TickFrequency="5"
                 IsSnapToTickEnabled="True"
