@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace Labb3_FridaKarlsson_NEU26G.Dialogs
+
+namespace Labb3_FridaKarlsson_NEU26G.Dialogs;
+
+/// <summary>
+/// Interaction logic for PackOptionsDialog.xaml
+/// </summary>
+public partial class PackOptionsDialog : Window
 {
-    /// <summary>
-    /// Interaction logic for PackOptionsDialog.xaml
-    /// </summary>
-    public partial class PackOptionsDialog : Window
+    public PackOptionsDialog()
     {
-        public PackOptionsDialog()
+        InitializeComponent();
+
+        Loaded += (_, _) =>
         {
-            InitializeComponent();
-
-        }
-
+            textBoxEditPackName.Focus();
+            textBoxEditPackName.SelectAll();
+        };
     }
+
 }

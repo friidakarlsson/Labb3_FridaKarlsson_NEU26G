@@ -2,6 +2,7 @@
 using System.Windows;
 using Labb3_FridaKarlsson_NEU26G.Dialogs;
 using Labb3_FridaKarlsson_NEU26G.ViewModels;
+using Labb3_FridaKarlsson_NEU26G.Views;
 
 namespace Labb3_FridaKarlsson_NEU26G
 {
@@ -10,31 +11,54 @@ namespace Labb3_FridaKarlsson_NEU26G
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainWindowViewModel _mainWindowViewModel;
+        private readonly MainWindowViewModel _mainWindowViewModel;
         public MainWindow()
         {
             InitializeComponent();
 
             DataContext = _mainWindowViewModel = new MainWindowViewModel();
 
-            _mainWindowViewModel.ConfigurationViewModel?.OpenCreateNewPack += ConfigurationViewModel_OpenCreateNewPack;
-            _mainWindowViewModel.ConfigurationViewModel?.OpenPackOptions += ConfigurationViewModel_OpenPackOptions;
+            _mainWindowViewModel.ConfigurationViewModel?.OpenCreateNewPack += OpenCreateNewPackDialog;
+            _mainWindowViewModel.ConfigurationViewModel?.OpenPackOptions += OpenPackOptionsDialog;
+            _mainWindowViewModel.PlayQuiz += _mainWindowViewModel_PlayQuiz;
         }
 
-        private void ConfigurationViewModel_OpenPackOptions(object? sender, EventArgs e)
+        private void _mainWindowViewModel_PlayQuiz(object? sender, EventArgs e)
+        {
+            _mainWindowViewModel.CurrentView = _mainWindowViewModel.PlayerViewModel;
+            
+        }
+
+        private void OpenPackOptionsDialog(object? sender, EventArgs e)
         {
             var dialog = new PackOptionsDialog();
 
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+
             dialog.ShowDialog();
         }
 
-        private void ConfigurationViewModel_OpenCreateNewPack(object? sender, EventArgs e)
+        private void OpenCreateNewPackDialog(object? sender, EventArgs e)
         {
+            var currentActivePack = _mainWindowViewModel.ActivePack;
+
             var dialog = new CreateNewPackDialog();
 
-            
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.DataContext = _mainWindowViewModel;
 
-            dialog.ShowDialog();
+            if (dialog.ShowDialog() == true)
+            {
+                //_mainWindowViewModel?.Packs.Add(ActivePack);                
+            }
+            else
+            {
+                _mainWindowViewModel?.ActivePack = currentActivePack;
+            }
+
 
         }
     }

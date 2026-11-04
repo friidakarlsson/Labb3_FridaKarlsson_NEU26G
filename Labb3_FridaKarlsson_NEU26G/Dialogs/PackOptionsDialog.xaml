@@ -20,8 +20,11 @@
                FontWeight="Bold"
                Padding="4 5 4 2"/>
 
-        <TextBox Text="{Binding ActivePack.Name}"
-                 Margin="3 2 3 2"/>
+        <TextBox 
+            x:Name="textBoxEditPackName"
+            Text="{Binding ActivePack.Name}"
+            Margin="3 2 3 2"
+        />
 
         <Label Content="Difficulty"
                FontWeight="Bold"

@@ -14,7 +14,7 @@
         <Menu>
             
             <MenuItem Header="_File">
-                <MenuItem Header="_New Question pack" Command="{Binding ConfigurationViewModel.OpenCreateNewPackDialogCommand}">
+                <MenuItem Header="_New Question pack" Command="{Binding ConfigurationViewModel.CreateNewPackCommand}">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Solid_FolderPlus" Width="12" Height="12"/>
                     </MenuItem.Icon>
@@ -67,7 +67,7 @@
             
             
             <MenuItem Header="View">
-                <MenuItem Header="_Play" InputGestureText="Ctrl+P">
+                <MenuItem Header="_Play" InputGestureText="Ctrl+P" Command="{Binding PlayQuizCommand}">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Solid_Play" Width="12" Height="12"/>
                     </MenuItem.Icon>

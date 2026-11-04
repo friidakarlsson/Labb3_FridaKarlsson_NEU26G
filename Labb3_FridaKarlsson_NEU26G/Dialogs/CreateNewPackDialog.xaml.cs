@@ -12,5 +12,15 @@ public partial class CreateNewPackDialog : Window
     public CreateNewPackDialog()
     {
         InitializeComponent();
+
+        Loaded += (_, _) =>
+        {
+            textBoxNewPackName.Focus();
+            textBoxNewPackName.SelectAll();
+        };
+
+
+
+        
     }
 }

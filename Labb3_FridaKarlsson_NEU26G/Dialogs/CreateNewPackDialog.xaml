@@ -39,7 +39,8 @@
             />
 
             <TextBox 
-                Text="&lt;PackName&gt;"
+                x:Name="textBoxNewPackName"
+                Text="{Binding Name}"
                 Margin="3 2 3 2"
             />
 
@@ -50,12 +51,11 @@
             />
 
             <ComboBox 
-                SelectedItem=""
+                
+                SelectedItem="{Binding Difficulty}"
                 Margin="3 2 3 2"
             >
-                <ComboBoxItem Content="Easy"/>
-                <ComboBoxItem Content="Medium"/>
-                <ComboBoxItem Content="Hard"/>
+
             </ComboBox>
 
 
@@ -86,7 +86,7 @@
                 x:Name="TimeLimitSlider"
                 Minimum="5"
                 Maximum="120"
-                Value="{Binding ActivePack.TimeLimitInSeconds}"
+                Value="{Binding TimeLimitInSeconds}"
                 TickPlacement="BottomRight"
                 TickFrequency="5"
                 IsSnapToTickEnabled="True"
@@ -97,25 +97,27 @@
         </StackPanel>
 
         <Button
-                Grid.Column="0"
-                Grid.Row="3"
-                Content="Cancel"
-                Width="50"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="10 10 10 15"
-                Padding="2"
+            Grid.Column="0"
+            Grid.Row="3"
+            Content="Cancel"
+            Width="50"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="10 10 10 15"
+            Padding="2"
+            IsCancel="True"
             />
 
         <Button
-                Grid.Column="1"
-                Grid.Row="3"
-                Content="Create"
-                Width="50"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="10 10 10 15"
-                Padding="2"
+            Grid.Column="1"
+            Grid.Row="3"
+            Content="Create"
+            Width="50"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="10 10 10 15"
+            Padding="2"
+            IsDefault="True"
             />
 
 

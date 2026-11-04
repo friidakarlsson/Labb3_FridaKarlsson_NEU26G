@@ -12,9 +12,8 @@ internal class ConfigurationViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
 
-    public QuestionPackViewModel? ActivePack { get => _mainWindowViewModel?.ActivePack; }
+    public QuestionPackViewModel? ActivePack { get => _mainWindowViewModel?.ActivePack; } 
 
-    public void RaiseActivePackChanged() => RaisePropertyChanged(nameof(ActivePack));
 
     public event EventHandler OpenCreateNewPack;
     public event EventHandler OpenPackOptions;
@@ -32,33 +31,37 @@ internal class ConfigurationViewModel : ViewModelBase
     {
         _mainWindowViewModel = mainWindowViewModel;
 
-        OpenCreateNewPackDialogCommand = new RelayCommand(_ => OpenCreateNewPackDialog());
-        OpenPackOptionsDialogCommand = new RelayCommand(_ => OpenPackOptionsDialog());
-        //CreateNewPackCommand = new RelayCommand(_ => CreateNewPack());
+        OpenCreateNewPackDialogCommand = new RelayCommand(_ => RaiseOpenCreateNewPack());
+        OpenPackOptionsDialogCommand = new RelayCommand(_ => RaiseOpenPackOptions());
+        CreateNewPackCommand = new RelayCommand(_ => CreateNewPack());
         DeletePackCommand = new RelayCommand(DeletePack, CanDeletePack);
 
 
 
     }
 
-    private void OpenPackOptionsDialog()
+    public void RaiseActivePackChanged() => RaisePropertyChanged(nameof(ActivePack));
+    private void RaiseOpenPackOptions()
     {
         OpenPackOptions.Invoke(this, EventArgs.Empty);
     }
 
-    private void OpenCreateNewPackDialog()
+    private void RaiseOpenCreateNewPack()
     {
         OpenCreateNewPack.Invoke(this, EventArgs.Empty);
     }
 
-    //private void CreateNewPack()
-    //{
-    //    var newPack = new QuestionPack("<PackName>", Difficulty.Medium, 60);
-    //    var newPackViewModel = new QuestionPackViewModel(newPack);
+    private void CreateNewPack()
+    {
+        var newPack = new QuestionPack("<PackName>", Difficulty.Medium, 60);
+        var newPackViewModel = new QuestionPackViewModel(newPack);
 
-    //    _mainWindowViewModel?.Packs.Add(newPackViewModel);
-    //    _mainWindowViewModel?.ActivePack = newPackViewModel;
-    //}
+        var currentActivePack = ActivePack;
+
+        _mainWindowViewModel?.ActivePack = newPackViewModel;
+
+        RaiseOpenCreateNewPack();        
+    }
 
     private void DeletePack(object? obj)
     {
