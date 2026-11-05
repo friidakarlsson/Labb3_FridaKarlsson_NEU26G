@@ -1,8 +1,9 @@
 ﻿
-using System.Windows;
 using Labb3_FridaKarlsson_NEU26G.Dialogs;
+using Labb3_FridaKarlsson_NEU26G.Models;
 using Labb3_FridaKarlsson_NEU26G.ViewModels;
 using Labb3_FridaKarlsson_NEU26G.Views;
+using System.Windows;
 
 namespace Labb3_FridaKarlsson_NEU26G
 {
@@ -18,11 +19,22 @@ namespace Labb3_FridaKarlsson_NEU26G
 
             DataContext = _mainWindowViewModel = new MainWindowViewModel();
 
-            _mainWindowViewModel.ConfigurationViewModel?.OpenCreateNewPack += OpenCreateNewPackDialog;
-            _mainWindowViewModel.ConfigurationViewModel?.OpenPackOptions += OpenPackOptionsDialog;
-            _mainWindowViewModel.PlayQuiz += _mainWindowViewModel_PlayQuiz;
+            _mainWindowViewModel.ConfigurationViewModel?.CreateNewPackOpened += OpenCreateNewPackDialog;
+            _mainWindowViewModel.ConfigurationViewModel?.PackOptionsOpened += OpenPackOptionsDialog;
+            _mainWindowViewModel.QuizStarted += _mainWindowViewModel_PlayQuiz;
+            _mainWindowViewModel.ConfigurationViewOpened += _mainWindowViewModel_OpenConfigurationView;
+            _mainWindowViewModel.ProgramExited += _mainWindowViewModel_ExitProgram;
         }
 
+        private void _mainWindowViewModel_ExitProgram(object? sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void _mainWindowViewModel_OpenConfigurationView(object? sender, EventArgs e)
+        {
+            _mainWindowViewModel.CurrentView = _mainWindowViewModel.ConfigurationViewModel;
+        }
         private void _mainWindowViewModel_PlayQuiz(object? sender, EventArgs e)
         {
             _mainWindowViewModel.CurrentView = _mainWindowViewModel.PlayerViewModel;
@@ -42,20 +54,25 @@ namespace Labb3_FridaKarlsson_NEU26G
 
         private void OpenCreateNewPackDialog(object? sender, EventArgs e)
         {
-            var currentActivePack = _mainWindowViewModel.ActivePack;
+
+            var currentActivePack = _mainWindowViewModel?.ActivePack;
+
+            _mainWindowViewModel?.ConfigurationViewModel?.CreateNewPack();
 
             var dialog = new CreateNewPackDialog();
-
-            dialog.Owner = this;
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dialog.DataContext = _mainWindowViewModel;
-
-            if (dialog.ShowDialog() == true)
             {
-                //_mainWindowViewModel?.Packs.Add(ActivePack);                
+                dialog.Owner = this;
+                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                dialog.DataContext = _mainWindowViewModel?.ConfigurationViewModel?.ActivePack ;
             }
-            else
+
+
+            if (dialog.ShowDialog() != true)
             {
+                if(_mainWindowViewModel?.ActivePack != null)
+                {
+                    _mainWindowViewModel.Packs.Remove(_mainWindowViewModel.ActivePack);
+                }
                 _mainWindowViewModel?.ActivePack = currentActivePack;
             }
 

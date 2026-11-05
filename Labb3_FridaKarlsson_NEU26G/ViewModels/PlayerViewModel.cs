@@ -1,5 +1,6 @@
 ﻿
 using Labb3_FridaKarlsson_NEU26G.Models;
+using System.Windows.Threading;
 
 namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 
@@ -9,6 +10,7 @@ internal class PlayerViewModel : ViewModelBase
     private Question? _currentQuestion;
     private int _currentQuestionNumber;
     private int _numbersOfQuestionsInCurrentPack;
+    private int? counter = 0;
 
     public int CurrentQuestionNumber
     {
@@ -55,7 +57,24 @@ internal class PlayerViewModel : ViewModelBase
         CurrentQuestion = _mainWindowViewModel?.ActivePack?.Questions[0];
         CurrentQuestionNumber = 1;
         NumbersOfQuestionsInCurrentPack = _mainWindowViewModel?.ActivePack?.Questions.Count ?? 0;
+        counter = _mainWindowViewModel?.ActivePack?.TimeLimitInSeconds;
+
+        DispatcherTimer timer = new();
+
+        timer.Interval = TimeSpan.FromSeconds(1);
+        timer.Tick += Timer_Tick;
     }
+
+    private void Timer_Tick(object? sender, EventArgs e)
+    {
+         counter--;
+    }
+
+    public PlayerViewModel()
+    {
+        
+    }
+
 
     public void ShuffleQuestions()
     {

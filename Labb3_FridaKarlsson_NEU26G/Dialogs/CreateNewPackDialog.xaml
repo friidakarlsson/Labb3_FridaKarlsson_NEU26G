@@ -40,8 +40,9 @@
 
             <TextBox 
                 x:Name="textBoxNewPackName"
-                Text="{Binding Name}"
+                Text="{Binding ActivePack.Name, UpdateSourceTrigger=PropertyChanged}"
                 Margin="3 2 3 2"
+                
             />
 
             <Label 
@@ -52,7 +53,7 @@
 
             <ComboBox 
                 
-                SelectedItem="{Binding Difficulty}"
+                SelectedItem="{Binding ActivePack.Difficulty, UpdateSourceTrigger=PropertyChanged}"
                 Margin="3 2 3 2"
             >
 
@@ -86,7 +87,7 @@
                 x:Name="TimeLimitSlider"
                 Minimum="5"
                 Maximum="120"
-                Value="{Binding TimeLimitInSeconds}"
+                Value="{Binding ActivePack.TimeLimitInSeconds, UpdateSourceTrigger=PropertyChanged}"
                 TickPlacement="BottomRight"
                 TickFrequency="5"
                 IsSnapToTickEnabled="True"
@@ -106,7 +107,7 @@
             Margin="10 10 10 15"
             Padding="2"
             IsCancel="True"
-            />
+        />
 
         <Button
             Grid.Column="1"
@@ -118,7 +119,9 @@
             Margin="10 10 10 15"
             Padding="2"
             IsDefault="True"
-            />
+            Click="CreateButton_Click"
+            
+        />
 
 
 

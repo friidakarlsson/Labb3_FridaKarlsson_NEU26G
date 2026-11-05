@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:Labb3_FridaKarlsson_NEU26G.Views"
              xmlns:viewmodels="clr-namespace:Labb3_FridaKarlsson_NEU26G.ViewModels"
              mc:Ignorable="d" 
-             DataContext="{Binding PlayerViewModel}"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=viewmodels:PlayerViewModel, IsDesignTimeCreatable=True}">
     
@@ -14,6 +13,7 @@
     <Grid>
         
         <Label 
+            x:Name="timerLabel"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Margin="0 0 10 0"
@@ -28,13 +28,12 @@
             Width="480"
         >
         
-            <TextBox                  
+            <TextBlock                  
                 Margin="0 0 0 10"
-                BorderThickness="0"
                 FontSize="30"
                 TextAlignment="Center"
                 TextWrapping="Wrap" 
-                Text="{Binding CurrentQuestion}"
+                Text="{Binding CurrentQuestion.Query}"
             />
 
             <TextBlock               

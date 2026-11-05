@@ -5,11 +5,20 @@ using System.Collections.ObjectModel;
 
 namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 
-internal class MainWindowViewModel :ViewModelBase
+internal class MainWindowViewModel : ViewModelBase
 {
 	private QuestionPackViewModel? _activePack;
+    private object? _currentView;
 
-    public object CurrentView { get; set; }
+    public object? CurrentView 
+    { 
+        get => _currentView;
+        set
+        {
+            SetProperty(ref _currentView, value);
+        }
+    }
+
     public ObservableCollection<QuestionPackViewModel> Packs { get; }
     public QuestionPackViewModel? ActivePack
 	{
@@ -26,15 +35,20 @@ internal class MainWindowViewModel :ViewModelBase
     public PlayerViewModel? PlayerViewModel { get;}
     public ConfigurationViewModel? ConfigurationViewModel { get; }
 
-    public event EventHandler PlayQuiz;
+    public event EventHandler? QuizStarted;
+    public event EventHandler? ConfigurationViewOpened;
+    public event EventHandler? ProgramExited;
+
     public RelayCommand PlayQuizCommand { get; }
+    public RelayCommand OpenConfigurationViewCommand { get; }
+    public RelayCommand ExitProgramCommand { get; }
 
 
     public MainWindowViewModel()
     {
         Packs = new ObservableCollection<QuestionPackViewModel>();
         ConfigurationViewModel = new ConfigurationViewModel(this);
-        CurrentView = ConfigurationViewModel;
+
 
         var questionPack = new QuestionPack("Mina frågor!", Difficulty.Easy);
         questionPack.Questions.Add(new Question("Vad heter Sveriges huvudstad?", "Stockholm", "Göteborg", "Malmö", "Kalmar"));
@@ -44,14 +58,28 @@ internal class MainWindowViewModel :ViewModelBase
 		PlayerViewModel = new PlayerViewModel(this);
 
         PlayQuizCommand = new RelayCommand(_ => RaisePlayQuiz());
+        OpenConfigurationViewCommand = new RelayCommand(_ => RaiseOpenConfigurationView());
+        ExitProgramCommand = new RelayCommand(_ => RaiseExitProgram());
+
+        CurrentView = ConfigurationViewModel;
+    }
+
+    private void RaiseExitProgram()
+    {
+        ProgramExited?.Invoke(this, EventArgs.Empty);
     }
 
     private void RaisePlayQuiz()
     {
         if (ActivePack != null)
         {
-            PlayQuiz.Invoke(this, EventArgs.Empty);
+            QuizStarted?.Invoke(this, EventArgs.Empty);
         }
+    }
+
+    private void RaiseOpenConfigurationView()
+    {
+        ConfigurationViewOpened?.Invoke(this, EventArgs.Empty);
     }
 
 }

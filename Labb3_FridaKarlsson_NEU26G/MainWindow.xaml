@@ -12,10 +12,22 @@
         MinHeight="450" MinWidth="700"
         xmlns:fa6="http://schemas.fontawesome.com/icons/svg"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel, IsDesignTimeCreatable=True}">
+
+    <Window.Resources>
+
+        <DataTemplate DataType="{x:Type viewmodels:ConfigurationViewModel}">            
+            <views:ConfigurationView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:PlayerViewModel}">
+            <views:PlayerView/>
+        </DataTemplate>
+
+    </Window.Resources>
     
     <Window.InputBindings>
         <KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding}"/>
-        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding}"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding ExitProgramCommand}"/>
 
         <KeyBinding Key="Insert" Command="{Binding ActivePack.AddNewQuestionCommand}"/>
         <KeyBinding Key="Delete" Command="{Binding ActivePack.DeleteQuestionCommand}"/>
@@ -24,9 +36,8 @@
         <KeyBinding Key="P" Modifiers="Ctrl" Command="{Binding}"/>
         <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding}"/>
         <KeyBinding Key="Return" Modifiers="Alt" Command="{Binding}"/>
-            
-
     </Window.InputBindings>
+    
     
     <Grid>
         <Grid.RowDefinitions>
@@ -34,10 +45,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-
         <views:MenuView Grid.Row="0"/>
-        <views:PlayerView Grid.Row="1"/>
-        <!--<views:ConfigurationView Grid.Row="1"/>-->
+
+        <ContentControl 
+            Grid.Row="1"
+            Content="{Binding CurrentView}"
+        />
+
+
+        
 
 
 
