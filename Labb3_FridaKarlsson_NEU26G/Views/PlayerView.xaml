@@ -19,7 +19,7 @@
             Margin="0 0 10 0"
             FontSize="30"
             FontWeight="Bold"
-            Content="00"
+            Content="{Binding TimeLimitCounter}"
         />
 
         <StackPanel

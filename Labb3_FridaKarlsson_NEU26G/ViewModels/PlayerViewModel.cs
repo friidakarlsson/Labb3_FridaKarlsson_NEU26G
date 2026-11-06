@@ -1,5 +1,7 @@
 ﻿
 using Labb3_FridaKarlsson_NEU26G.Models;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Windows.Threading;
 
 namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
@@ -7,10 +9,27 @@ namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 internal class PlayerViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
+
     private Question? _currentQuestion;
     private int _currentQuestionNumber;
     private int _numbersOfQuestionsInCurrentPack;
-    private int? counter = 0;
+
+    private readonly DispatcherTimer _timer;
+    private Stopwatch _stopwatch = new();
+    private bool _isQuizPlaying = false;
+
+    private int _timeLimitCounter;
+
+    public int TimeLimitCounter
+    {
+        get => _timeLimitCounter; 
+        set 
+        { 
+            _timeLimitCounter = value;
+            RaisePropertyChanged();
+        }
+    }
+
 
     public int CurrentQuestionNumber
     {
@@ -43,6 +62,7 @@ internal class PlayerViewModel : ViewModelBase
             if (value != null)
             {
                 ShuffleAnswers();
+                ResetTimer();
             }
         }
     }
@@ -54,27 +74,69 @@ internal class PlayerViewModel : ViewModelBase
         _mainWindowViewModel = mainWindowViewModel;
 
         ShuffleQuestions();
+
+        _timer = new DispatcherTimer();
+        _timer.Interval = TimeSpan.FromSeconds(1);
+        _timer.Tick += Timer_Tick;
+
+    }
+    public PlayerViewModel()
+    {
+        _timer = new DispatcherTimer();
+    }
+
+    public void StartQuiz()
+    {
+        _isQuizPlaying = true;
+
         CurrentQuestion = _mainWindowViewModel?.ActivePack?.Questions[0];
         CurrentQuestionNumber = 1;
         NumbersOfQuestionsInCurrentPack = _mainWindowViewModel?.ActivePack?.Questions.Count ?? 0;
-        counter = _mainWindowViewModel?.ActivePack?.TimeLimitInSeconds;
+    }
 
-        DispatcherTimer timer = new();
+    private void NextQuestion()
+    {
+        int currentQuestionIndex = _mainWindowViewModel?.ActivePack?.Questions.IndexOf(CurrentQuestion) ?? 0;
 
-        timer.Interval = TimeSpan.FromSeconds(1);
-        timer.Tick += Timer_Tick;
+        if ( currentQuestionIndex != NumbersOfQuestionsInCurrentPack -1)
+        {
+            CurrentQuestionNumber++;
+            CurrentQuestion = _mainWindowViewModel?.ActivePack?.Questions[currentQuestionIndex + 1];
+        }
+        else
+        {
+            _timer.Stop();
+            _stopwatch.Stop();
+            // Ska något mer hända här??
+        }
     }
 
     private void Timer_Tick(object? sender, EventArgs e)
     {
-         counter--;
+        TimeLimitCounter = RemainingTime();
+        if (TimeLimitCounter <= 0)
+        {
+            _timer.Stop();
+            NextQuestion();
+        }
     }
-
-    public PlayerViewModel()
+    public void ResetTimer()
     {
-        
+        if (_isQuizPlaying == true)
+        {
+            _timer.Stop();
+            _stopwatch.Stop();
+            TimeLimitCounter = _mainWindowViewModel?.ActivePack?.TimeLimitInSeconds ?? 30;
+            _stopwatch.Reset();
+            _stopwatch.Start();
+            _timer.Start();
+        }
     }
 
+    public int RemainingTime()
+    {
+        return TimeLimitCounter = (_mainWindowViewModel?.ActivePack?.TimeLimitInSeconds ?? 30) - (int)Math.Round(_stopwatch.Elapsed.TotalSeconds);
+    }
 
     public void ShuffleQuestions()
     {
@@ -82,7 +144,7 @@ internal class PlayerViewModel : ViewModelBase
 
         if (selectedQuestions != null)
         {
-            ChangeListIndex(selectedQuestions);
+            ShuffleListIndex(selectedQuestions);
         }
     }
 
@@ -96,14 +158,14 @@ internal class PlayerViewModel : ViewModelBase
             allAnswers.Add(CurrentQuestion.IncorrectAnswers[1]);
             allAnswers.Add(CurrentQuestion.IncorrectAnswers[2]);
 
-            ChangeListIndex(allAnswers);
+            ShuffleListIndex(allAnswers);
 
             CurrentAnswers = allAnswers;
             RaisePropertyChanged(nameof(CurrentAnswers));
         }
     }
 
-    private void ChangeListIndex<T>(IList<T> list)
+    private void ShuffleListIndex<T>(IList<T> list)
     {
         int numberOfListItems = list.Count;
 

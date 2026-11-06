@@ -35,7 +35,7 @@ internal class MainWindowViewModel : ViewModelBase
     public PlayerViewModel? PlayerViewModel { get;}
     public ConfigurationViewModel? ConfigurationViewModel { get; }
 
-    public event EventHandler? QuizStarted;
+    public event EventHandler? PlayerViewOpened;
     public event EventHandler? ConfigurationViewOpened;
     public event EventHandler? ProgramExited;
 
@@ -57,7 +57,7 @@ internal class MainWindowViewModel : ViewModelBase
         ActivePack = new QuestionPackViewModel(questionPack);
 		PlayerViewModel = new PlayerViewModel(this);
 
-        PlayQuizCommand = new RelayCommand(_ => RaisePlayQuiz());
+        PlayQuizCommand = new RelayCommand(_ => RaiseOpenPlayerView());
         OpenConfigurationViewCommand = new RelayCommand(_ => RaiseOpenConfigurationView());
         ExitProgramCommand = new RelayCommand(_ => RaiseExitProgram());
 
@@ -69,11 +69,11 @@ internal class MainWindowViewModel : ViewModelBase
         ProgramExited?.Invoke(this, EventArgs.Empty);
     }
 
-    private void RaisePlayQuiz()
+    private void RaiseOpenPlayerView()
     {
         if (ActivePack != null)
         {
-            QuizStarted?.Invoke(this, EventArgs.Empty);
+            PlayerViewOpened?.Invoke(this, EventArgs.Empty);
         }
     }
 

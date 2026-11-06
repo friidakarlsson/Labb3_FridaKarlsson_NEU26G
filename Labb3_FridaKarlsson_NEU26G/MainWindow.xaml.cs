@@ -21,23 +21,24 @@ namespace Labb3_FridaKarlsson_NEU26G
 
             _mainWindowViewModel.ConfigurationViewModel?.CreateNewPackOpened += OpenCreateNewPackDialog;
             _mainWindowViewModel.ConfigurationViewModel?.PackOptionsOpened += OpenPackOptionsDialog;
-            _mainWindowViewModel.QuizStarted += _mainWindowViewModel_PlayQuiz;
-            _mainWindowViewModel.ConfigurationViewOpened += _mainWindowViewModel_OpenConfigurationView;
-            _mainWindowViewModel.ProgramExited += _mainWindowViewModel_ExitProgram;
+            _mainWindowViewModel.PlayerViewOpened += OpenPlayerView;
+            _mainWindowViewModel.ConfigurationViewOpened += OpenConfigurationView;
+            _mainWindowViewModel.ProgramExited += ExitProgram;
         }
 
-        private void _mainWindowViewModel_ExitProgram(object? sender, EventArgs e)
+        private void ExitProgram(object? sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void _mainWindowViewModel_OpenConfigurationView(object? sender, EventArgs e)
+        private void OpenConfigurationView(object? sender, EventArgs e)
         {
             _mainWindowViewModel.CurrentView = _mainWindowViewModel.ConfigurationViewModel;
         }
-        private void _mainWindowViewModel_PlayQuiz(object? sender, EventArgs e)
+        private void OpenPlayerView(object? sender, EventArgs e)
         {
             _mainWindowViewModel.CurrentView = _mainWindowViewModel.PlayerViewModel;
+            _mainWindowViewModel?.PlayerViewModel?.StartQuiz();
             
         }
 
@@ -60,11 +61,11 @@ namespace Labb3_FridaKarlsson_NEU26G
             _mainWindowViewModel?.ConfigurationViewModel?.CreateNewPack();
 
             var dialog = new CreateNewPackDialog();
-            {
-                dialog.Owner = this;
-                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                dialog.DataContext = _mainWindowViewModel?.ConfigurationViewModel?.ActivePack ;
-            }
+            
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.DataContext = _mainWindowViewModel?.ConfigurationViewModel?.ActivePack ;
+            
 
 
             if (dialog.ShowDialog() != true)
