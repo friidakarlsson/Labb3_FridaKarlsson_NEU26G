@@ -22,7 +22,7 @@
 
         <TextBox 
             x:Name="textBoxEditPackName"
-            Text="{Binding ActivePack.Name}"
+            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
             Margin="3 2 3 2"
         />
 
@@ -31,9 +31,8 @@
                Padding="4 5 4 2"/>
 
         <ComboBox 
-            ItemsSource="{Binding ActivePack.Difficulty}"
-            DisplayMemberPath="Difficulty"
-            SelectedValue="{Binding ActivePack.Difficulty}"
+            ItemsSource="{Binding Difficulties}"
+            SelectedItem="{Binding Difficulty}"
             Margin="3 2 3 2"
         >
 
@@ -41,24 +40,21 @@
 
 
         <DockPanel>
-        <Label 
-               DockPanel.Dock="Left"
-               FontWeight="Bold"
-               Padding="4 5 4 2">
-            <TextBlock>
-          
-                    <Run Text="Time Limit:"/>
- 
-               
-            </TextBlock>
-
-              
+            <Label 
+                DockPanel.Dock="Left"
+                FontWeight="Bold"
+                Padding="4 5 4 2"
+            >
+                <TextBlock>          
+                        <Run Text="Time Limit:"/>               
+                </TextBlock>              
             </Label>
 
-            <Label DockPanel.Dock="Right"
-                   HorizontalAlignment="Right"
-                   Padding="4 5 4 2"
-                   >
+            <Label 
+                DockPanel.Dock="Right"
+                HorizontalAlignment="Right"
+                Padding="4 5 4 2"
+            >
                 <TextBlock>                   
                     <Run Text="{Binding ElementName=TimeLimitSlider, Path=Value, StringFormat={}{0} seconds}"/>
                 </TextBlock>
@@ -73,7 +69,7 @@
             x:Name="TimeLimitSlider"
             Minimum="5"
             Maximum="120"
-            Value="{Binding ActivePack.TimeLimitInSeconds}"
+            Value="{Binding TimeLimitInSeconds}"
             TickPlacement="BottomRight"
             TickFrequency="5"
             IsSnapToTickEnabled="True"

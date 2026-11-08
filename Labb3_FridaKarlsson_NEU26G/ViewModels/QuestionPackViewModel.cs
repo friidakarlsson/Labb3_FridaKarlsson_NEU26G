@@ -77,6 +77,9 @@ internal class QuestionPackViewModel : ViewModelBase
         }
     }
 
+    public Difficulty[] Difficulties => (Difficulty[])Enum.GetValues(typeof(Difficulty));
+
+
 
     public RelayCommand AddNewQuestionCommand { get; }
     public RelayCommand DeleteQuestionCommand { get; }

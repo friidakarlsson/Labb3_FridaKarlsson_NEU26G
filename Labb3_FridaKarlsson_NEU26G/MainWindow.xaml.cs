@@ -38,17 +38,14 @@ namespace Labb3_FridaKarlsson_NEU26G
         private void OpenPlayerView(object? sender, EventArgs e)
         {
             _mainWindowViewModel.CurrentView = _mainWindowViewModel.PlayerViewModel;
-            _mainWindowViewModel?.PlayerViewModel?.StartQuiz();
-            
+            _mainWindowViewModel?.PlayerViewModel?.StartQuiz();            
         }
 
         private void OpenPackOptionsDialog(object? sender, EventArgs e)
         {
             var dialog = new PackOptionsDialog();
 
-            dialog.Owner = this;
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
+            SetDialogSettings(dialog);
 
             dialog.ShowDialog();
         }
@@ -61,12 +58,8 @@ namespace Labb3_FridaKarlsson_NEU26G
             _mainWindowViewModel?.ConfigurationViewModel?.CreateNewPack();
 
             var dialog = new CreateNewPackDialog();
-            
-            dialog.Owner = this;
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dialog.DataContext = _mainWindowViewModel?.ConfigurationViewModel?.ActivePack ;
-            
 
+            SetDialogSettings(dialog);
 
             if (dialog.ShowDialog() != true)
             {
@@ -76,8 +69,12 @@ namespace Labb3_FridaKarlsson_NEU26G
                 }
                 _mainWindowViewModel?.ActivePack = currentActivePack;
             }
-
-
+        }
+        private void SetDialogSettings(Window dialog)
+        {
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.DataContext = _mainWindowViewModel?.ConfigurationViewModel?.ActivePack;
         }
     }
 }
