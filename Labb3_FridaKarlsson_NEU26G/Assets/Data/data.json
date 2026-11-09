@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Labb3_FridaKarlsson_NEU26G
+{
+    class data
+  {
+
+  }
+}

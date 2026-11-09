@@ -9,7 +9,6 @@ namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 internal class QuestionPackViewModel : ViewModelBase
 {
     private readonly QuestionPack _model;
-
     private Question? _activeQuestion;
 
 

@@ -10,6 +10,7 @@ internal class MainWindowViewModel : ViewModelBase
 	private QuestionPackViewModel? _activePack;
     private object? _currentView;
 
+
     public object? CurrentView 
     { 
         get => _currentView;

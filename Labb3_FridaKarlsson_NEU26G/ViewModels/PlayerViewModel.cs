@@ -1,7 +1,9 @@
 ﻿
+using Labb3_FridaKarlsson_NEU26G.Command;
 using Labb3_FridaKarlsson_NEU26G.Models;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
+using System.Reflection.Metadata.Ecma335;
 using System.Windows.Threading;
 
 namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
@@ -9,17 +11,81 @@ namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 internal class PlayerViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
-
-    private Question? _currentQuestion;
-    private int _currentQuestionNumber;
-    private int _numbersOfQuestionsInCurrentPack;
-
     private readonly DispatcherTimer _timer;
     private Stopwatch _stopwatch = new();
     private bool _isQuizPlaying = false;
-
     private int _timeLimitCounter;
+    private int _currentQuestionNumber;
+    private int _numbersOfQuestionsInCurrentPack;
+    private Question? _currentQuestion;
+    private bool _hasAnswered;
+    private AnswerOption _selectedAnswer;
+    private int _score;
+    private bool _isQuizOver = false;
 
+
+
+    public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
+    {
+        _mainWindowViewModel = mainWindowViewModel;
+
+        SelectAnswerCommand = new RelayCommand(obj => ShowAnswer(obj));
+        RestartQuizCommand = new RelayCommand(_ => StartQuiz());
+
+        ShowCorrectAnswerIcon = new List<bool> { false, false, false, false };
+        ShowIncorrectAnswerIcon = new List<bool> { false, false, false, false };
+
+
+        ShuffleQuestions();
+
+        _timer = new DispatcherTimer();
+        _timer.Interval = TimeSpan.FromSeconds(1);
+        _timer.Tick += Timer_Tick;
+
+    }
+
+
+    public PlayerViewModel()
+    {
+        _timer = new DispatcherTimer();
+    }
+
+
+
+    public RelayCommand SelectAnswerCommand { get; }
+    public RelayCommand RestartQuizCommand { get; }
+
+
+    
+    public bool HasAnswered
+    {
+        get => _hasAnswered;
+        set
+        {
+            _hasAnswered = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    public AnswerOption SelectedAnswer
+    {
+        get => _selectedAnswer;
+        set
+        {
+            _selectedAnswer = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    public int Score
+    {
+        get => _score; 
+        set 
+        {
+            _score = value;
+            RaisePropertyChanged();
+        }
+    }
     public int TimeLimitCounter
     {
         get => _timeLimitCounter; 
@@ -29,8 +95,6 @@ internal class PlayerViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-
-
     public int CurrentQuestionNumber
     {
         get => _currentQuestionNumber;
@@ -40,7 +104,6 @@ internal class PlayerViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-
     public int NumbersOfQuestionsInCurrentPack
     {
         get => _numbersOfQuestionsInCurrentPack;
@@ -50,7 +113,6 @@ internal class PlayerViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-
     public Question? CurrentQuestion
     {
         get => _currentQuestion; 
@@ -62,31 +124,34 @@ internal class PlayerViewModel : ViewModelBase
             if (value != null)
             {
                 ShuffleAnswers();
-                ResetTimer();
+                ResetRound();
             }
         }
     }
-    public List<string> CurrentAnswers { get; set; } = new List<string>();
 
-
-    public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
+    public bool IsQuizOver
     {
-        _mainWindowViewModel = mainWindowViewModel;
-
-        ShuffleQuestions();
-
-        _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromSeconds(1);
-        _timer.Tick += Timer_Tick;
-
+        get => _isQuizOver;
+        set 
+        { 
+            _isQuizOver = value;
+            RaisePropertyChanged();
+        }
     }
-    public PlayerViewModel()
-    {
-        _timer = new DispatcherTimer();
-    }
+
+
+
+    public List<AnswerOption> CurrentAnswers { get; set; }
+    public List<bool> ShowCorrectAnswerIcon { get; private set; }
+    public List<bool> ShowIncorrectAnswerIcon { get; private set; }
+
+
+
 
     public void StartQuiz()
     {
+        Score = 0;
+        IsQuizOver = false;
         _isQuizPlaying = true;
 
         CurrentQuestion = _mainWindowViewModel?.ActivePack?.Questions[0];
@@ -94,33 +159,7 @@ internal class PlayerViewModel : ViewModelBase
         NumbersOfQuestionsInCurrentPack = _mainWindowViewModel?.ActivePack?.Questions.Count ?? 0;
     }
 
-    private void NextQuestion()
-    {
-        int currentQuestionIndex = _mainWindowViewModel?.ActivePack?.Questions.IndexOf(CurrentQuestion) ?? 0;
-
-        if ( currentQuestionIndex != NumbersOfQuestionsInCurrentPack -1)
-        {
-            CurrentQuestionNumber++;
-            CurrentQuestion = _mainWindowViewModel?.ActivePack?.Questions[currentQuestionIndex + 1];
-        }
-        else
-        {
-            _timer.Stop();
-            _stopwatch.Stop();
-            // Ska något mer hända här??
-        }
-    }
-
-    private void Timer_Tick(object? sender, EventArgs e)
-    {
-        TimeLimitCounter = RemainingTime();
-        if (TimeLimitCounter <= 0)
-        {
-            _timer.Stop();
-            NextQuestion();
-        }
-    }
-    public void ResetTimer()
+    public void ResetRound()
     {
         if (_isQuizPlaying == true)
         {
@@ -130,12 +169,93 @@ internal class PlayerViewModel : ViewModelBase
             _stopwatch.Reset();
             _stopwatch.Start();
             _timer.Start();
+
+            ResetAnswerIcons();
         }
     }
 
     public int RemainingTime()
     {
         return TimeLimitCounter = (_mainWindowViewModel?.ActivePack?.TimeLimitInSeconds ?? 30) - (int)Math.Round(_stopwatch.Elapsed.TotalSeconds);
+    }
+    private async void ShowAnswer(object? obj)
+    {
+        _timer.Stop();
+        _stopwatch.Stop();
+
+        if (obj is AnswerOption choosenAnswer)
+        {
+            SelectedAnswer = choosenAnswer;
+            HasAnswered = true;
+
+            if (choosenAnswer.IsCorrect == true)
+            {
+                Score++;
+            }
+        }
+        else
+        {
+            HasAnswered = true;
+        }
+
+        ShowAnswerIcons();
+        await Task.Delay(3000);
+
+        NextQuestion();
+    }
+
+    private void Timer_Tick(object? sender, EventArgs e)
+    {
+        TimeLimitCounter = RemainingTime();
+        if (TimeLimitCounter <= 0)
+        {
+            _timer.Stop();
+            ShowAnswer(null);
+        }
+    }
+
+    private void NextQuestion()
+    {
+        int currentQuestionIndex = _mainWindowViewModel?.ActivePack?.Questions.IndexOf(CurrentQuestion) ?? 0;
+
+        if (currentQuestionIndex != NumbersOfQuestionsInCurrentPack - 1)
+        {
+            CurrentQuestionNumber++;
+            CurrentQuestion = _mainWindowViewModel?.ActivePack?.Questions[currentQuestionIndex + 1];
+        }
+        else
+        {
+            _timer.Stop();
+            _stopwatch.Stop();
+            _isQuizPlaying = false;
+            IsQuizOver = true;
+        }
+    }
+    private void ShowAnswerIcons()
+    {
+        var temporaryCorrect = new List<bool> { false, false, false, false };
+        var temporaryIncorrect = new List<bool> { false, false, false, false };
+
+        for (int i = 0; i <= 3; i++)
+        {
+            temporaryCorrect[i] = CurrentAnswers[i].IsCorrect;
+            temporaryIncorrect[i] = (CurrentAnswers[i].Text == SelectedAnswer.Text && !CurrentAnswers[i].IsCorrect);
+        }
+
+        ShowCorrectAnswerIcon = temporaryCorrect;
+        ShowIncorrectAnswerIcon = temporaryIncorrect;
+
+        RaisePropertyChanged(nameof(ShowCorrectAnswerIcon));
+        RaisePropertyChanged(nameof(ShowIncorrectAnswerIcon));
+    }
+
+    private void ResetAnswerIcons()
+    {
+        ShowCorrectAnswerIcon = new List<bool> { false, false, false, false, };
+        ShowIncorrectAnswerIcon = new List<bool> { false, false, false, false, };
+
+        RaisePropertyChanged(nameof(ShowCorrectAnswerIcon));
+        RaisePropertyChanged(nameof(ShowIncorrectAnswerIcon));
     }
 
     public void ShuffleQuestions()
@@ -152,11 +272,11 @@ internal class PlayerViewModel : ViewModelBase
     {
         if (CurrentQuestion != null)
         {
-            List<string> allAnswers = new List<string>();
-            allAnswers.Add(CurrentQuestion.CorrectAnswer);
-            allAnswers.Add(CurrentQuestion.IncorrectAnswers[0]);
-            allAnswers.Add(CurrentQuestion.IncorrectAnswers[1]);
-            allAnswers.Add(CurrentQuestion.IncorrectAnswers[2]);
+            List<AnswerOption> allAnswers = new List<AnswerOption>();
+            allAnswers.Add(new AnswerOption(CurrentQuestion.CorrectAnswer, true));
+            allAnswers.Add(new AnswerOption(CurrentQuestion.IncorrectAnswers[0], false));
+            allAnswers.Add(new AnswerOption(CurrentQuestion.IncorrectAnswers[1], false));
+            allAnswers.Add(new AnswerOption(CurrentQuestion.IncorrectAnswers[2], false));
 
             ShuffleListIndex(allAnswers);
 
@@ -180,5 +300,17 @@ internal class PlayerViewModel : ViewModelBase
             list[newIndex] = temporaryItemHolder;
         }
     }
+}
+
+public struct AnswerOption
+{
+    public AnswerOption(string text, bool isCorrect)
+    {
+        Text = text;
+        IsCorrect = isCorrect;
+    }
+
+    public string Text { get; set; }
+    public bool IsCorrect { get; set; }
 
 }
