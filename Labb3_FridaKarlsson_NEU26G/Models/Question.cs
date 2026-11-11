@@ -1,7 +1,9 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace Labb3_FridaKarlsson_NEU26G.Models;
 
-internal class Question
+public class Question
 {
     public Question(string query, string correctAnswer, string incorrectAnswer1, string incorrectAnswer2, string incorrectAnswer3)
     {
@@ -10,8 +12,13 @@ internal class Question
         IncorrectAnswers = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3]; 
     }
 
-    public string Query { get; set; }
-    public string CorrectAnswer { get; set; }
-    public string[] IncorrectAnswers { get; set; }
+    public Question()
+    {
+
+    }
+
+    public string Query { get; set; } = string.Empty;
+    public string CorrectAnswer { get; set; } = string.Empty;
+    public string[] IncorrectAnswers { get; set; } = Array.Empty<string>();
 
 }

@@ -31,10 +31,10 @@
 
         <KeyBinding Key="Insert" Command="{Binding ActivePack.AddNewQuestionCommand}"/>
         <KeyBinding Key="Delete" Command="{Binding ActivePack.DeleteQuestionCommand}"/>
-        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding}"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.OpenPackOptionsDialogCommand}"/>
 
-        <KeyBinding Key="P" Modifiers="Ctrl" Command="{Binding}"/>
-        <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding}"/>
+        <KeyBinding Key="P" Modifiers="Ctrl" Command="{Binding PlayQuizCommand}"/>
+        <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding OpenConfigurationViewCommand}"/>
         <KeyBinding Key="Return" Modifiers="Alt" Command="{Binding}"/>
     </Window.InputBindings>
     

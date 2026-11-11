@@ -11,6 +11,10 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel, IsDesignTimeCreatable=True}">
     <Grid>
         
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="boolToVisibility"/>
+        </Grid.Resources>
+        
         <Menu>
             
             <MenuItem Header="_File">
@@ -19,10 +23,17 @@
                         <fa6:SvgAwesome Icon="Solid_FolderPlus" Width="12" Height="12"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Select Question pack">
+                <MenuItem Header="_Select Question pack" ItemsSource="{Binding Packs}" IsEnabled="{Binding ActivePack.IsEditingAllowed}">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Regular_FolderOpen" Width="12" Height="12"/>
                     </MenuItem.Icon>
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Name}"/>
+                            <Setter Property="Command" Value="{Binding DataContext.OpenConfigurationViewCommand, RelativeSource={RelativeSource AncestorType=Menu}}"/>
+                            <Setter Property="CommandParameter" Value="{Binding}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>                                      
                 </MenuItem>
                 <MenuItem Header="_Delete Question pack" Command="{Binding ConfigurationViewModel.DeletePackCommand}">
                     <MenuItem.Icon>
@@ -66,7 +77,7 @@
             </MenuItem>
             
             
-            <MenuItem Header="View">
+            <MenuItem Header="_View">
                 <MenuItem Header="_Play" InputGestureText="Ctrl+P" Command="{Binding PlayQuizCommand}">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Solid_Play" Width="12" Height="12"/>

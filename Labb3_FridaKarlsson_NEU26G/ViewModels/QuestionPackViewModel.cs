@@ -17,7 +17,7 @@ internal class QuestionPackViewModel : ViewModelBase
         _model = model;
         Questions = new ObservableCollection<Question>(_model.Questions);
 
-        AddNewQuestionCommand = new RelayCommand(_ => AddNewQuestion());
+        AddNewQuestionCommand = new RelayCommand(_ => AddNewQuestion(), CanAddQuestion);
         DeleteQuestionCommand = new RelayCommand(DeleteQuestion, CanDeleteQuestion);
     }
 
@@ -76,6 +76,24 @@ internal class QuestionPackViewModel : ViewModelBase
         }
     }
 
+    public QuestionPack Model => _model;
+
+    private bool _isEditingAllowed = true;
+
+    public bool IsEditingAllowed
+    {
+        get => _isEditingAllowed; 
+        set 
+        {
+            if (SetProperty(ref _isEditingAllowed, value))
+            {
+                AddNewQuestionCommand?.RaiseCanExecuteChanged();
+                DeleteQuestionCommand?.RaiseCanExecuteChanged();
+            }
+        }
+    }
+
+
     public Difficulty[] Difficulties => (Difficulty[])Enum.GetValues(typeof(Difficulty));
 
 
@@ -86,20 +104,27 @@ internal class QuestionPackViewModel : ViewModelBase
 
     public void AddNewQuestion()
     {
-        Questions.Add(new Question("New question", "Correct answer", "First incorrect answer", "Second incorrect answer", "Third incorrect answer"));
+        var newQuestion = new Question("New question", "Correct answer", "First incorrect answer", "Second incorrect answer", "Third incorrect answer");
+
+        Questions.Add(newQuestion);
+        _model.Questions.Add(newQuestion);
+    }
+
+    private bool CanAddQuestion(object? obj)
+    {
+        return IsEditingAllowed;
     }
 
     public void DeleteQuestion(object? obj)
     {
         if (ActiveQuestion != null)
         {
-
+            _model.Questions.Remove(ActiveQuestion);
             Questions.Remove(ActiveQuestion);
         }
     }
-    private bool CanDeleteQuestion(object? arg)
+    private bool CanDeleteQuestion(object? obj)
     {
-        return ActiveQuestion != null;
-
+        return ActiveQuestion != null && IsEditingAllowed;
     }
 }

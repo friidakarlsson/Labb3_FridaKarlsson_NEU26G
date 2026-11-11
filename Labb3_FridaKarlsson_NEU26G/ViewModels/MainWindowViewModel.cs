@@ -1,7 +1,9 @@
 ﻿
 using Labb3_FridaKarlsson_NEU26G.Command;
+using Labb3_FridaKarlsson_NEU26G.Data;
 using Labb3_FridaKarlsson_NEU26G.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Labb3_FridaKarlsson_NEU26G.ViewModels;
 
@@ -9,6 +11,7 @@ internal class MainWindowViewModel : ViewModelBase
 {
 	private QuestionPackViewModel? _activePack;
     private object? _currentView;
+    private readonly JsonData _jsonData;
 
 
     public object? CurrentView 
@@ -17,6 +20,15 @@ internal class MainWindowViewModel : ViewModelBase
         set
         {
             SetProperty(ref _currentView, value);
+
+            if (ActivePack != null)
+            {
+                ActivePack.IsEditingAllowed = value is not ViewModels.PlayerViewModel;
+            }
+
+            ConfigurationViewModel?.OpenCreateNewPackDialogCommand?.RaiseCanExecuteChanged();
+            ConfigurationViewModel?.OpenPackOptionsDialogCommand?.RaiseCanExecuteChanged();
+            ConfigurationViewModel?.DeletePackCommand?.RaiseCanExecuteChanged();
         }
     }
 
@@ -47,22 +59,19 @@ internal class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        _jsonData = new JsonData();
         Packs = new ObservableCollection<QuestionPackViewModel>();
         ConfigurationViewModel = new ConfigurationViewModel(this);
 
-
-        var questionPack = new QuestionPack("Mina frågor!", Difficulty.Easy);
-        questionPack.Questions.Add(new Question("Vad heter Sveriges huvudstad?", "Stockholm", "Göteborg", "Malmö", "Kalmar"));
-        questionPack.Questions.Add(new Question("Vad är 2 + 3?", "5", "10", "8", "1"));
-
-        ActivePack = new QuestionPackViewModel(questionPack);
 		PlayerViewModel = new PlayerViewModel(this);
 
         PlayQuizCommand = new RelayCommand(_ => RaiseOpenPlayerView());
-        OpenConfigurationViewCommand = new RelayCommand(_ => RaiseOpenConfigurationView());
+        OpenConfigurationViewCommand = new RelayCommand(obj => RaiseOpenConfigurationView(obj));
         ExitProgramCommand = new RelayCommand(_ => RaiseExitProgram());
 
         CurrentView = ConfigurationViewModel;
+
+        _ = LoadDataAsync();
     }
 
     private void RaiseExitProgram()
@@ -78,9 +87,38 @@ internal class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private void RaiseOpenConfigurationView()
+    private void RaiseOpenConfigurationView(object? obj)
     {
+        if (obj is QuestionPackViewModel selectedPack)
+        {
+            ActivePack = selectedPack;
+        }
         ConfigurationViewOpened?.Invoke(this, EventArgs.Empty);
+    }
+
+    private async Task LoadDataAsync()
+    {
+        var savedModels = await _jsonData.LoadPacksAsync();
+
+        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+        {
+            foreach (var model in savedModels)
+            {
+                Packs.Add(new QuestionPackViewModel(model));
+            }
+
+            if (Packs.Count > 0)
+            {
+                ActivePack = Packs[0];
+
+                ActivePack.IsEditingAllowed = CurrentView is not ViewModels.PlayerViewModel;
+
+                ConfigurationViewModel?.RaiseActivePackChanged();
+                ConfigurationViewModel?.OpenCreateNewPackDialogCommand?.RaiseCanExecuteChanged();
+                ConfigurationViewModel?.OpenPackOptionsDialogCommand?.RaiseCanExecuteChanged();
+                ConfigurationViewModel?.DeletePackCommand?.RaiseCanExecuteChanged();
+            }
+        });
     }
 
 }

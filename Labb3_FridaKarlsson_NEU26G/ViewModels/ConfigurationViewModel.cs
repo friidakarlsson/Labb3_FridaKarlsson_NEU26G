@@ -25,8 +25,8 @@ internal class ConfigurationViewModel : ViewModelBase
     {
         _mainWindowViewModel = mainWindowViewModel;
 
-        OpenCreateNewPackDialogCommand = new RelayCommand(_ => RaiseOpenCreateNewPack());
-        OpenPackOptionsDialogCommand = new RelayCommand(_ => RaiseOpenPackOptions());
+        OpenCreateNewPackDialogCommand = new RelayCommand(_ => RaiseOpenCreateNewPack(), CanEditPacks);
+        OpenPackOptionsDialogCommand = new RelayCommand(_ => RaiseOpenPackOptions(), CanEditPacks);
         DeletePackCommand = new RelayCommand(DeletePack, CanDeletePack);
     }
 
@@ -67,8 +67,18 @@ internal class ConfigurationViewModel : ViewModelBase
     }
     private bool CanDeletePack(object? arg)
     {
-        return ActivePack != null;
+        return ActivePack != null && (_mainWindowViewModel?.CurrentView is not PlayerViewModel);
 
+    }
+
+    private bool CanEditPacks(object? obj)
+    {
+        if (ActivePack != null)
+        {
+            return ActivePack.IsEditingAllowed;
+        }
+
+        return true;
     }
 
 }

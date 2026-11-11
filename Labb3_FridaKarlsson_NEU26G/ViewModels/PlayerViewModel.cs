@@ -12,7 +12,7 @@ internal class PlayerViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
     private readonly DispatcherTimer _timer;
-    private Stopwatch _stopwatch = new();
+    private readonly Stopwatch _stopwatch = new();
     private bool _isQuizPlaying = false;
     private int _timeLimitCounter;
     private int _currentQuestionNumber;
@@ -52,8 +52,8 @@ internal class PlayerViewModel : ViewModelBase
 
 
 
-    public RelayCommand SelectAnswerCommand { get; }
-    public RelayCommand RestartQuizCommand { get; }
+    public RelayCommand? SelectAnswerCommand { get; }
+    public RelayCommand? RestartQuizCommand { get; }
 
 
     
@@ -141,9 +141,9 @@ internal class PlayerViewModel : ViewModelBase
 
 
 
-    public List<AnswerOption> CurrentAnswers { get; set; }
-    public List<bool> ShowCorrectAnswerIcon { get; private set; }
-    public List<bool> ShowIncorrectAnswerIcon { get; private set; }
+    public List<AnswerOption>? CurrentAnswers { get; set; }
+    public List<bool>? ShowCorrectAnswerIcon { get; private set; }
+    public List<bool>? ShowIncorrectAnswerIcon { get; private set; }
 
 
 
@@ -216,6 +216,8 @@ internal class PlayerViewModel : ViewModelBase
 
     private void NextQuestion()
     {
+        if (CurrentQuestion == null) return;
+
         int currentQuestionIndex = _mainWindowViewModel?.ActivePack?.Questions.IndexOf(CurrentQuestion) ?? 0;
 
         if (currentQuestionIndex != NumbersOfQuestionsInCurrentPack - 1)
@@ -233,6 +235,8 @@ internal class PlayerViewModel : ViewModelBase
     }
     private void ShowAnswerIcons()
     {
+        if (CurrentAnswers == null || SelectedAnswer.Text == null) return;
+
         var temporaryCorrect = new List<bool> { false, false, false, false };
         var temporaryIncorrect = new List<bool> { false, false, false, false };
 

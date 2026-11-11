@@ -3,6 +3,8 @@ using Labb3_FridaKarlsson_NEU26G.Dialogs;
 using Labb3_FridaKarlsson_NEU26G.Models;
 using Labb3_FridaKarlsson_NEU26G.ViewModels;
 using Labb3_FridaKarlsson_NEU26G.Views;
+using Labb3_FridaKarlsson_NEU26G.Data;
+using System.Linq;
 using System.Windows;
 
 namespace Labb3_FridaKarlsson_NEU26G;
@@ -29,6 +31,20 @@ public partial class MainWindow : Window
     private void ExitProgram(object? sender, EventArgs e)
     {
         this.Close();
+    }
+
+
+    protected override async void OnClosing(System.ComponentModel.CancelEventArgs e)
+    {
+        e.Cancel = true;
+
+        var modelsToSave = _mainWindowViewModel.Packs.Select(p => p.Model).ToList();
+
+        var packsData = new Labb3_FridaKarlsson_NEU26G.Data.JsonData();
+        await packsData.SavePacksAsync(modelsToSave);
+
+        App.Current.Shutdown();
+
     }
 
     private void OpenConfigurationView(object? sender, EventArgs e)
@@ -75,5 +91,10 @@ public partial class MainWindow : Window
         dialog.Owner = this;
         dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
         dialog.DataContext = _mainWindowViewModel?.ConfigurationViewModel?.ActivePack;
+    }
+
+    private void OpenFullScreen(object? sender, EventArgs e)
+    {
+
     }
 }
