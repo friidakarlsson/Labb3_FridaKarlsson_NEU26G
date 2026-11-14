@@ -119,14 +119,9 @@
             Margin="10 10 10 15"
             Padding="2"
             IsDefault="True"
-            Click="CreateButton_Click"
-            
+            Click="CreateButton_Click"            
         />
 
-
-
     </Grid>
-
-
 
 </Window>

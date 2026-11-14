@@ -93,7 +93,6 @@ internal class QuestionPackViewModel : ViewModelBase
         }
     }
 
-
     public Difficulty[] Difficulties => (Difficulty[])Enum.GetValues(typeof(Difficulty));
 
 
@@ -106,8 +105,7 @@ internal class QuestionPackViewModel : ViewModelBase
     {
         var newQuestion = new Question("New question", "Correct answer", "First incorrect answer", "Second incorrect answer", "Third incorrect answer");
 
-        Questions.Add(newQuestion);
-        _model.Questions.Add(newQuestion);
+        AddQuestionToLists(newQuestion);
     }
 
     private bool CanAddQuestion(object? obj)
@@ -126,5 +124,11 @@ internal class QuestionPackViewModel : ViewModelBase
     private bool CanDeleteQuestion(object? obj)
     {
         return ActiveQuestion != null && IsEditingAllowed;
+    }
+
+    public void AddQuestionToLists(Question question)
+    {
+        Questions.Add(question);
+        _model.Questions.Add(question);
     }
 }

@@ -23,7 +23,7 @@
                         <fa6:SvgAwesome Icon="Solid_FolderPlus" Width="12" Height="12"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Select Question pack" ItemsSource="{Binding Packs}" IsEnabled="{Binding ActivePack.IsEditingAllowed}">
+                <MenuItem Header="_Select Question pack" ItemsSource="{Binding Packs}" IsEnabled="{Binding CanSelectPack}">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Regular_FolderOpen" Width="12" Height="12"/>
                     </MenuItem.Icon>
@@ -41,7 +41,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator Margin="2"/>
-                <MenuItem Header="_Import Questions" InputGestureText="Ctrl+I">
+                <MenuItem Header="_Import Questions" InputGestureText="Ctrl+I" Command="{Binding ConfigurationViewModel.OpenImportQuestionsDialogCommand}">
                     <MenuItem.Icon>
                         <fa6:SvgAwesome Icon="Solid_CloudArrowDown" Width="12" Height="12"/>
                     </MenuItem.Icon>
@@ -89,9 +89,13 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator Margin="2"/>
-                <MenuItem Header="_Fullscreen" InputGestureText="Alt+Enter">
+                <MenuItem Header="Fullscreen" InputGestureText="Alt+Enter" Command="{Binding ToggleFullscreenCommand}">
                     <MenuItem.Icon>
-                        <fa6:SvgAwesome Icon="Solid_Expand" Width="12" Height="12"/>
+                        <Grid>
+                            <fa6:SvgAwesome Icon="Solid_Expand" Width="12" Height="12" Visibility="{Binding IsNotFullscreen, Converter={StaticResource boolToVisibility}}"/>
+                            <fa6:SvgAwesome Icon="Solid_Check"  Width="12" Height="12" Visibility="{Binding IsFullscreen, Converter={StaticResource boolToVisibility}}"/>
+                        </Grid>
+
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>

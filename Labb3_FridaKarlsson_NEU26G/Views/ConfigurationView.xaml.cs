@@ -5,22 +5,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Labb3_FridaKarlsson_NEU26G.Views
+
+namespace Labb3_FridaKarlsson_NEU26G.Views;
+
+/// <summary>
+/// Interaction logic for ConfigurationView.xaml
+/// </summary>
+public partial class ConfigurationView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ConfigurationView.xaml
-    /// </summary>
-    public partial class ConfigurationView : UserControl
+    public ConfigurationView()
     {
-        public ConfigurationView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

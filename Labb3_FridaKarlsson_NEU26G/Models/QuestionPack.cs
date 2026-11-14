@@ -1,7 +1,7 @@
 ﻿
 namespace Labb3_FridaKarlsson_NEU26G.Models;
 
-internal enum Difficulty { Easy, Medium, Hard };
+internal enum Difficulty { Any, Easy, Medium, Hard };
 
 internal class QuestionPack
 {

@@ -26,7 +26,7 @@
     </Window.Resources>
     
     <Window.InputBindings>
-        <KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding}"/>
+        <KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.OpenImportQuestionsDialogCommand}"/>
         <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding ExitProgramCommand}"/>
 
         <KeyBinding Key="Insert" Command="{Binding ActivePack.AddNewQuestionCommand}"/>
@@ -35,7 +35,8 @@
 
         <KeyBinding Key="P" Modifiers="Ctrl" Command="{Binding PlayQuizCommand}"/>
         <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding OpenConfigurationViewCommand}"/>
-        <KeyBinding Key="Return" Modifiers="Alt" Command="{Binding}"/>
+        <KeyBinding Key="Return" Modifiers="Alt" Command="{Binding ToggleFullscreenCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding ExitFullscreenCommand}"/>
     </Window.InputBindings>
     
     
