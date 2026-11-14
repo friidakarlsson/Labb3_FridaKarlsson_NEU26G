@@ -44,13 +44,10 @@ internal class PlayerViewModel : ViewModelBase
 
     }
 
-
     public PlayerViewModel()
     {
         _timer = new DispatcherTimer();
     }
-
-
 
     public RelayCommand? SelectAnswerCommand { get; }
     public RelayCommand? RestartQuizCommand { get; }
@@ -298,6 +295,7 @@ internal class PlayerViewModel : ViewModelBase
         for (int i = numberOfListItems - 1; i > 0; i--)
         {
             int newIndex = random.Next(0, i + 1);
+
             var temporaryItemHolder = list[i];
 
             list[i] = list[newIndex];
